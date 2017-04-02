@@ -1,36 +1,42 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html lang="en" ng-app="app" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="app" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="app" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="app" class="no-js"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>My AngularJS App</title>
   <meta name="description" content="">
+  <link href="https://fonts.googleapis.com/css?family=Gravitas+One" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
   <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
-<body>
-  <ul class="menu">
-    <li><a href="#!/view1">view1</a></li>
-    <li><a href="#!/view2">view2</a></li>
-  </ul>
+<body style="background-color:black">
+<nav class="navbar navbar-inverse navbar-fixed-top xyz" style="background-color: #3399ff;display: block">
+  <div class="container">
+    <h1 style="text-align: center;font-family: 'Gravitas One', cursive;font-style: italic;color: blue">Luck By Chance</h1>
+  </div>
+</nav>
 
-  <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
-
-  <div ng-view></div>
-
-  <div>Angular seed app: v<span app-version></span></div>
-
-  <!-- In production use:
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-  -->
+<div class="container"ng-controller="XYZ">
+  <h2 style="padding-top: 60px; text-align: center;font-family: 'Gravitas One', cursive;font-style: italic;color: red">Try your luck<br>
+  Guess the number</h2>
+<p class="well lead"style="background-color: #3A3A3A;font-style: italic;color: #fef6ff;text-align: center;">Apply your luck, how is ur luck </p>
+  <p class="well lead" style="text-align: center;">Your Guess: <input type="number" ng-model="guess"/>
+  <button ng-click="verifyGuess()" class="btn btn-primary btn-sm">Verify</button>
+  <button ng-click="initializeGame()" class="btn btn-warning btn-sm">Restart</button>
+  </p> <p ng-show="deviation<0" class="alert alert-warning">your guess is higher</p>
+  <p ng-show="deviation>0"class="alert alert-warning">your guess is lower</p>
+  <p ng-show="deviation==0"class="alert alert-success">yes that's it</p>
+  <p class="text-info" style="text-align: center;">No of guesses : <span class="badge" >{{noOfTries}}</span></p>
+</div>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="app.js"></script>
@@ -39,5 +45,26 @@
   <script src="components/version/version.js"></script>
   <script src="components/version/version-directive.js"></script>
   <script src="components/version/interpolate-filter.js"></script>
+<script type="text/javascript">
+  angular.module('app',[])
+          .controller('XYZ', XYZ);
+  function XYZ($scope) {
+    $scope.verifyGuess = function () {
+      $scope.deviation = $scope.original - $scope.guess;
+      $scope.noOfTries = $scope.noOfTries + 1;
+      if($scope.deviation==0){
+        alert("Finally you get");
+      }
+    }
+    $scope.initializeGame=function() {
+      $scope.noOfTries = 0;
+      $scope.original = Math.floor((Math.random() * 1000) + 1);
+      $scope.guess = null;
+      $scope.deviation = null;
+    }
+    $scope.initializeGame();
+  }
+</script>
+
 </body>
 </html>
